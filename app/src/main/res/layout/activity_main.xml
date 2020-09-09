@@ -29,6 +29,7 @@
 
     <androidx.cardview.widget.CardView
         android:elevation="40dp"
+        android:visibility="visible"
         android:outlineSpotShadowColor="@android:color/black"
         android:id="@+id/card_container"
         android:layout_marginTop="20dp"

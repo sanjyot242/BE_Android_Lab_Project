@@ -55,7 +55,8 @@
 
 
         <EditText
-            android:hint="Username"
+            android:inputType="textEmailAddress"
+            android:hint="Email"
             android:id="@+id/username"
             android:layout_below="@+id/signInLogo"
             android:layout_marginTop="30dp"
@@ -67,7 +68,7 @@
             android:textSize="20dp"
             android:textAlignment="center"
             android:textColor="#878787"
-            tools:text="Username"
+            tools:text="Email"
             />
 
             <EditText

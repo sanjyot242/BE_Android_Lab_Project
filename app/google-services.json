@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "214485390360",
+    "firebase_url": "https://androidlab-122cb.firebaseio.com",
+    "project_id": "androidlab-122cb",
+    "storage_bucket": "androidlab-122cb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:214485390360:android:89e34e31be5695b5e8df6d",
+        "android_client_info": {
+          "package_name": "com.example.unamedappproject"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "214485390360-uu9bc7jli2h13ria83iivu53sndsls0b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBU7UYHJYgMQVOm1wpNrFfTDezrf25dAe4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "214485390360-uu9bc7jli2h13ria83iivu53sndsls0b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

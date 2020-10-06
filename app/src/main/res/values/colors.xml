@@ -3,5 +3,6 @@
     <color name="colorPrimary">#E60CA5</color>
     <color name="colorSecondry">#FF9F40</color>
     <color name="colorAccent">#D81B60</color>
-
+    <color name="TagColor">#C2C8CD</color>
+    <color name="BlackColor">#080808</color>
 </resources>

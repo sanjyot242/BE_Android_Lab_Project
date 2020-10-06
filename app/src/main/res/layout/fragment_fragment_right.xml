@@ -1,14 +1,142 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:theme="@style/AppTheme1"
     tools:context=".fragmentRight">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:id="@+id/heading"
+        android:layout_marginRight="30dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Right fragmet" />
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_medium"
+        android:text="Account"
+        android:textColor="@color/BlackColor"
+        android:textSize="40sp"
+        android:textStyle="normal"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="5dp"
+        />
 
-</FrameLayout>
+    <View
+        android:layout_marginTop="10dp"
+        android:id="@+id/view_label"
+        android:layout_width="match_parent"
+        android:layout_height="0.8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="20dp"
+        android:layout_below="@+id/heading"
+        android:background="@color/TagColor"/>
+
+    <TextView
+        android:layout_marginTop="8dp"
+        android:id="@+id/Account_Profile"
+        android:layout_below="@id/view_label"
+        android:layout_marginLeft="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Profile"
+        android:textSize="25sp"
+        android:fontFamily="@font/roboto_thin"
+        android:textColor="@color/BlackColor"/>
+
+    <View
+        android:layout_marginTop="10dp"
+        android:id="@+id/view_label2"
+        android:layout_width="match_parent"
+        android:layout_height="0.8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="20dp"
+        android:layout_below="@+id/Account_Profile"
+        android:background="@color/TagColor"/>
+
+    <TextView
+        android:layout_marginTop="8dp"
+        android:id="@+id/Account_Requests"
+        android:layout_below="@id/view_label2"
+        android:layout_marginLeft="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="My Request's"
+        android:textSize="25sp"
+        android:fontFamily="@font/roboto_thin"
+        android:textColor="@color/BlackColor"/>
+
+    <View
+        android:layout_marginTop="10dp"
+        android:id="@+id/view_label3"
+        android:layout_width="match_parent"
+        android:layout_height="0.8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="20dp"
+        android:layout_below="@+id/Account_Requests"
+        android:background="@color/TagColor"/>
+
+    <TextView
+        android:layout_marginTop="8dp"
+        android:id="@+id/Account_Slot3"
+        android:layout_below="@id/view_label3"
+        android:layout_marginLeft="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Slot3"
+        android:textSize="25sp"
+        android:fontFamily="@font/roboto_thin"
+        android:textColor="@color/BlackColor"/>
+
+    <View
+        android:layout_marginTop="10dp"
+        android:id="@+id/view_label4"
+        android:layout_width="match_parent"
+        android:layout_height="0.8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="20dp"
+        android:layout_below="@+id/Account_Slot3"
+        android:background="@color/TagColor"/>
+
+    <TextView
+        android:layout_marginTop="8dp"
+        android:id="@+id/Account_Slot4"
+        android:layout_below="@id/view_label4"
+        android:layout_marginLeft="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Slot4"
+        android:textSize="25sp"
+        android:fontFamily="@font/roboto_thin"
+        android:textColor="@color/BlackColor"/>
+
+    <View
+        android:layout_marginTop="10dp"
+        android:id="@+id/view_label5"
+        android:layout_width="match_parent"
+        android:layout_height="0.8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="20dp"
+        android:layout_below="@+id/Account_Slot4"
+        android:background="@color/TagColor"/>
+
+    <TextView
+        android:layout_marginTop="8dp"
+        android:id="@+id/Account_Logout"
+        android:layout_below="@id/view_label5"
+        android:layout_marginLeft="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Logout"
+        android:textSize="25sp"
+        android:fontFamily="@font/roboto_thin"
+        android:textColor="@color/BlackColor"/>
+
+
+
+
+
+
+
+
+
+</RelativeLayout>

@@ -12,14 +12,17 @@ import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainHostActivity extends AppCompatActivity implements fragmentLeft.OnFragmentInteractionListener,fragmentRight.OnFragmentInteractionListener {
+    private static final String TAG ="MainActivity" ;
     public Fragment mainHostFragment;
     NavHostFragment navHostFragment;
     NavController navController;
@@ -38,8 +41,11 @@ public class MainHostActivity extends AppCompatActivity implements fragmentLeft.
 //                        .findFragmentById(R.id.fragNavHost);
         // navController = navHostFragment.getNavController();
 //
+
+
         bottomNavigationView = findViewById(R.id.bottom_navigation);
-      bottomNavigationView.setOnNavigationItemSelectedListener(navListner);
+        bottomNavigationView.setOnNavigationItemSelectedListener(navListner);
+
        // NavigationUI.setupWithNavController(bottomNavigationView, navController);
 
 
@@ -104,4 +110,30 @@ public class MainHostActivity extends AppCompatActivity implements fragmentLeft.
                 }
 
             };
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.i(TAG, "onPause: ");
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.i(TAG, "onResume: ");
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(mPager.getCurrentItem()==0 || mPager.getCurrentItem()==2){
+            bottomNavigationView.getMenu().getItem(1).setChecked(true);
+            mPager.setCurrentItem(1);
+        } else
+        {
+            Intent sm = new Intent(Intent.ACTION_MAIN);
+            sm.addCategory(Intent.CATEGORY_HOME);
+            sm.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(sm);
+        }
+    }
 }

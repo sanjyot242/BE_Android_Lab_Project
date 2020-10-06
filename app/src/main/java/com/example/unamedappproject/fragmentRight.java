@@ -4,11 +4,14 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
 
 /**
@@ -62,11 +65,35 @@ public class fragmentRight extends Fragment {
         }
     }
 
+    private TextView Slot3;
+    private TextView Slot4;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_fragment_right, container, false);
+        View v = inflater.inflate(R.layout.fragment_fragment_right, container, false);
+        //Declerations
+        TextView profile = v.findViewById(R.id.Account_Profile);
+        TextView requests = v.findViewById(R.id.Account_Requests);
+        TextView logout = v.findViewById(R.id.Account_Logout);
+        Slot3=v.findViewById(R.id.Account_Slot3) ;
+        Slot4 = v.findViewById(R.id.Account_Slot4);
+
+
+
+        profile.setOnClickListener(v1 ->{
+            Toast.makeText(getContext(), "Profile", Toast.LENGTH_SHORT).show();
+        } );
+
+        requests.setOnClickListener(v1 -> {
+            Toast.makeText(getContext(), "Requests", Toast.LENGTH_SHORT).show();
+        });
+
+        logout.setOnClickListener(v1 -> {
+            Toast.makeText(getContext(), "Logout", Toast.LENGTH_SHORT).show();
+        });
+        return v;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -107,4 +134,17 @@ public class fragmentRight extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+    }
+
+
 }

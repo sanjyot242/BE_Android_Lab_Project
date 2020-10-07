@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
-    tools:context=".MainActivity">
+    tools:context=".SignUpActivity">
 
     <View
         android:layout_marginLeft="-40dp"
@@ -23,7 +21,7 @@
         android:layout_width="118dp"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="20dp"
         android:src="@drawable/logo" />
 
 
@@ -45,38 +43,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/signInLogo"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:src="@drawable/ic_group_add_24px"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"/>
-
-
-        <EditText
-            android:inputType="textEmailAddress"
-            android:hint="Email"
-            android:id="@+id/username"
-            android:layout_below="@+id/signInLogo"
-            android:layout_marginTop="30dp"
-            android:layout_width="match_parent"
-            android:layout_marginLeft="40dp"
-            android:layout_marginRight="40dp"
-            android:layout_height="50dp"
-            android:background="@drawable/rounded_borders"
-            android:textSize="20dp"
-            android:textAlignment="center"
-            android:textColor="#878787"
-            tools:text="Email"
-            />
+            <ImageView
+                android:id="@+id/signInLogo"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/ic_group_reg_24px"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"/>
 
             <EditText
-                android:inputType="textPassword"
-                android:hint="Password"
-                android:id="@+id/password"
-                android:layout_below="@+id/username"
-                android:layout_marginTop="30dp"
+                android:inputType="text"
+                android:hint="Enter Your Name"
+                android:id="@+id/user_Name"
+                android:layout_below="@+id/signInLogo"
+                android:layout_marginTop="20dp"
                 android:layout_width="match_parent"
                 android:layout_marginLeft="40dp"
                 android:layout_marginRight="40dp"
@@ -85,17 +65,65 @@
                 android:textSize="20dp"
                 android:textAlignment="center"
                 android:textColor="#878787"
-                tools:text="Password"
+                />
+
+
+            <EditText
+                android:inputType="textEmailAddress"
+                android:hint="Enter your Email id"
+                android:id="@+id/user_Email"
+                android:layout_below="@+id/user_Name"
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:layout_height="50dp"
+                android:background="@drawable/rounded_borders"
+                android:textSize="20dp"
+                android:textAlignment="center"
+                android:textColor="#878787"
+                />
+
+            <EditText
+                android:inputType="textPassword"
+                android:hint="Password"
+                android:id="@+id/password"
+                android:layout_below="@+id/user_Email"
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:layout_height="50dp"
+                android:background="@drawable/rounded_borders"
+                android:textSize="20dp"
+                android:textAlignment="center"
+                android:textColor="#878787"
+                />
+
+            <EditText
+                android:inputType="textPassword"
+                android:hint="Confirm Password"
+                android:id="@+id/confirm_password"
+                android:layout_below="@+id/password"
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:layout_height="50dp"
+                android:background="@drawable/rounded_borders"
+                android:textSize="20dp"
+                android:textAlignment="center"
+                android:textColor="#878787"
                 />
 
             <Button
-                android:id="@+id/signIn"
+                android:id="@+id/sign_Up"
                 android:layout_width="160dp"
                 android:height="45dp"
                 android:layout_height="wrap_content"
-                android:text="@string/sign_in"
+                android:text="@string/sign_up"
                 android:background="@drawable/login_button_background"
-                android:layout_below="@+id/password"
+                android:layout_below="@+id/confirm_password"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="20dp"
                 android:textSize="18dp"
@@ -105,8 +133,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/alternate_signIn"
-                android:text="Or Sign in with"
-                android:layout_below="@+id/signIn"
+                android:text="Or Sign Up with"
+                android:layout_below="@+id/sign_Up"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="20dp"
                 android:textSize="15dp"/>
@@ -114,8 +142,8 @@
             <LinearLayout
                 android:layout_marginLeft="40dp"
                 android:layout_marginRight="40dp"
-                android:layout_marginTop="40dp"
-                android:layout_marginBottom="30dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="15dp"
                 android:layout_below="@+id/alternate_signIn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -148,22 +176,22 @@
 
     <LinearLayout
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="10dp"
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         >
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Dont Have an Account?"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="I've got an account already ? "/>
 
         <TextView
-            android:id="@+id/go_Signup"
+            android:id="@+id/go_SignIn"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text=" Sign Up"
+            android:text="@string/sign_in"
             android:textColor="@color/colorSecondry" />
     </LinearLayout>
 

@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.play.core.tasks.OnCompleteListener;
@@ -19,6 +20,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
     private EditText inputUsernme, inputPassword;
+    private TextView goToSignup;
     private Button signIn;
     private FirebaseAuth mAuth;
 
@@ -34,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
         inputUsernme = findViewById(R.id.username);
         inputPassword = findViewById(R.id.password);
         signIn = findViewById(R.id.signIn);
+        goToSignup = findViewById(R.id.go_Signup);
 
         signIn.setOnClickListener(v -> {
             if (TextUtils.isEmpty(inputPassword.getText()) || TextUtils.isEmpty(inputPassword.getText())) {
@@ -41,6 +44,11 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 signIn(inputUsernme.getText().toString(), inputPassword.getText().toString());
             }
+        });
+
+        goToSignup.setOnClickListener(v -> {
+            Intent i = new Intent(this,SignUpActivity.class);
+            startActivity(i);
         });
     }
 
@@ -82,7 +90,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        updateUI(currentUser);
+        if(FirebaseAuth.getInstance().getCurrentUser()!=null){
+            updateUI(FirebaseAuth.getInstance().getCurrentUser());
+        }
     }
 }

@@ -1,6 +1,7 @@
 package com.example.unamedappproject;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -11,15 +12,27 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import android.Manifest;
 import android.annotation.TargetApi;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+import java.io.File;
+
+import static com.example.unamedappproject.RecyclerViewAdapterHome.CAMERA_REQUEST_CODE;
+import static com.example.unamedappproject.RecyclerViewAdapterHome.currentPhotoPath;
 
 public class MainHostActivity extends AppCompatActivity implements fragmentLeft.OnFragmentInteractionListener,fragmentRight.OnFragmentInteractionListener {
     private static final String TAG ="MainActivity" ;
@@ -29,7 +42,9 @@ public class MainHostActivity extends AppCompatActivity implements fragmentLeft.
     ViewPager mPager;
     PagerAdapter pagerAdapter;
     BottomNavigationView bottomNavigationView;
-    MenuItem prevMenuItem;;
+    MenuItem prevMenuItem;
+    private StorageReference mStorage;
+    private static final int MY_CAMERA_REQUEST_CODE = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +57,7 @@ public class MainHostActivity extends AppCompatActivity implements fragmentLeft.
         // navController = navHostFragment.getNavController();
 //
 
+        mStorage= FirebaseStorage.getInstance().getReference();
 
         bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(navListner);
@@ -82,6 +98,10 @@ public class MainHostActivity extends AppCompatActivity implements fragmentLeft.
 
             }
         });
+
+        if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.CAMERA}, MY_CAMERA_REQUEST_CODE);
+        }
     }
 
 
@@ -134,6 +154,36 @@ public class MainHostActivity extends AppCompatActivity implements fragmentLeft.
             sm.addCategory(Intent.CATEGORY_HOME);
             sm.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(sm);
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == CAMERA_REQUEST_CODE && resultCode== RESULT_OK){
+
+            File file = new File(currentPhotoPath);
+            Uri uri = Uri.fromFile(file);
+                    StorageReference filePath = mStorage.child("DataSets").child("nameDataSet").child(uri.getLastPathSegment());
+            filePath.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    Toast.makeText(MainHostActivity.this, "Image Upload Successfull", Toast.LENGTH_LONG).show();
+                }
+            });
+
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == MY_CAMERA_REQUEST_CODE) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(this, "camera permission granted", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(this, "camera permission denied", Toast.LENGTH_LONG).show();
+            }
         }
     }
 }

@@ -1,20 +1,13 @@
 package com.example.unamedappproject;
 
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.Environment;
-import android.provider.MediaStore;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,17 +15,8 @@ import android.view.ViewGroup;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-
-import static android.app.Activity.RESULT_OK;
-import static android.content.ContentValues.TAG;
-import static android.media.MediaRecorder.VideoSource.CAMERA;
-import static com.example.unamedappproject.RecyclerViewAdapterHome.CAMERA_REQUEST_CODE;
 
 
 /**
@@ -44,10 +28,6 @@ import static com.example.unamedappproject.RecyclerViewAdapterHome.CAMERA_REQUES
  * create an instance of this fragment.
  */
 public class FragmentHome extends Fragment {
-    View v;
-    private RecyclerView recyclerViewHome;
-    RecyclerViewAdapterHome recyclerViewAdapter;
-    static LinearLayoutManager mLayoutManager;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -97,15 +77,7 @@ public class FragmentHome extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        v = inflater.inflate(R.layout.fragment_fragment_home, container, false);
-        recyclerViewHome=(RecyclerView) v.findViewById(R.id.global_Requests);
-        //logic will come to hide recyler view when no requests are there !
-
-        recyclerViewAdapter = new RecyclerViewAdapterHome(getContext());
-        recyclerViewHome.setAdapter(recyclerViewAdapter);
-        mLayoutManager = new LinearLayoutManager(getActivity());
-        recyclerViewHome.setLayoutManager(mLayoutManager);
-        return v;
+        return inflater.inflate(R.layout.fragment_fragment_home, container, false);
 
     }
 
@@ -144,7 +116,6 @@ public class FragmentHome extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
-
 
 
 }

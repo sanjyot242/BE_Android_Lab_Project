@@ -45,12 +45,13 @@ public class MainHostActivity extends AppCompatActivity implements fragmentLeft.
     MenuItem prevMenuItem;
     private StorageReference mStorage;
     private static final int MY_CAMERA_REQUEST_CODE = 100;
+    Compressor compressor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_host);
-
+        compressor = new Compressor();
 //         navHostFragment =
 //                (NavHostFragment) getSupportFragmentManager()
 //                        .findFragmentById(R.id.fragNavHost);
@@ -163,15 +164,19 @@ public class MainHostActivity extends AppCompatActivity implements fragmentLeft.
         if(requestCode == CAMERA_REQUEST_CODE && resultCode== RESULT_OK){
 
             File file = new File(currentPhotoPath);
-            Uri uri = Uri.fromFile(file);
-                    StorageReference filePath = mStorage.child("DataSets").child("nameDataSet").child(uri.getLastPathSegment());
-            filePath.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    Toast.makeText(MainHostActivity.this, "Image Upload Successfull", Toast.LENGTH_LONG).show();
-                }
-            });
+            if(!compressor.compressfile(file,getApplicationContext())){
+                File cmpfile = new File(Compressor.compressedfile);
+                Uri uri = Uri.fromFile(cmpfile);
+                StorageReference filePath = mStorage.child("DataSets").child("nameDataSet").child(uri.getLastPathSegment());
+                filePath.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        Toast.makeText(MainHostActivity.this, "Image Upload Successfull", Toast.LENGTH_LONG).show();
+                    }
+                });
+            }else {
 
+            }
         }
     }
 

@@ -25,6 +25,12 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.play.core.tasks.OnCompleteListener;
+import com.google.android.play.core.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -33,6 +39,7 @@ import java.io.File;
 
 import static com.example.unamedappproject.RecyclerViewAdapterHome.CAMERA_REQUEST_CODE;
 import static com.example.unamedappproject.RecyclerViewAdapterHome.currentPhotoPath;
+import static com.example.unamedappproject.SignUpActivity.mAuth;
 
 public class MainHostActivity extends AppCompatActivity implements fragmentLeft.OnFragmentInteractionListener,fragmentRight.OnFragmentInteractionListener {
     private static final String TAG ="MainActivity" ;
@@ -43,19 +50,38 @@ public class MainHostActivity extends AppCompatActivity implements fragmentLeft.
     PagerAdapter pagerAdapter;
     BottomNavigationView bottomNavigationView;
     MenuItem prevMenuItem;
+    static String UID ;
     private StorageReference mStorage;
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
     private static final int MY_CAMERA_REQUEST_CODE = 100;
+    static String name ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_host);
+        mAuth= FirebaseAuth.getInstance();
 
 //         navHostFragment =
 //                (NavHostFragment) getSupportFragmentManager()
 //                        .findFragmentById(R.id.fragNavHost);
         // navController = navHostFragment.getNavController();
 //
+        DocumentReference docRef = db.collection("user").document(mAuth.getUid());
+        docRef.get().addOnCompleteListener((com.google.android.gms.tasks.OnCompleteListener<DocumentSnapshot>) task -> {
+            if (task.isSuccessful()) {
+                DocumentSnapshot document = task.getResult();
+                if (document.exists()) {
+                    Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                    name= (String) document.get("Name");
+                } else {
+                    Log.d(TAG, "No such document");
+                }
+            } else {
+                Log.d(TAG, "get failed with ", task.getException());
+            }
+        });
+
 
         mStorage= FirebaseStorage.getInstance().getReference();
 

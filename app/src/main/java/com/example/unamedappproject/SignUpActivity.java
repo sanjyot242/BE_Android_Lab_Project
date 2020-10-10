@@ -29,7 +29,7 @@ import java.util.Map;
 
 public class SignUpActivity extends AppCompatActivity {
     private static final String TAG ="SignUp Activity" ;
-    private FirebaseAuth mAuth;
+    public static FirebaseAuth mAuth;
     private EditText name , email , password , confirmPassword;
     private Button signUp;
     private TextView goToSignIn;

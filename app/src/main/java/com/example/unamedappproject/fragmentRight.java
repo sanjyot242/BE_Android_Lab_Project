@@ -90,7 +90,8 @@ public class fragmentRight extends Fragment {
         } );
 
         requests.setOnClickListener(v1 -> {
-            Toast.makeText(getContext(), "Requests", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(getContext(),Request.class);
+            startActivity(intent);
         });
 
         logout.setOnClickListener(v1 -> {

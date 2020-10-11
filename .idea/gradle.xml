@@ -10,8 +10,8 @@
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="modules">
           <set>
-            <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/app" />
+            <option value="/mnt/sdb1/some1/studies/sem7/android_lab/a_proj" />
+            <option value="/mnt/sdb1/some1/studies/sem7/android_lab/a_proj/app" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

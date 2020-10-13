@@ -4,6 +4,7 @@ package com.example.unamedappproject;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -23,6 +24,9 @@ import com.google.firebase.storage.StorageReference;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.example.unamedappproject.MainActivity.description;
+import static com.example.unamedappproject.MainActivity.owner;
+import static com.example.unamedappproject.MainActivity.title;
 import static com.example.unamedappproject.SignUpActivity.mAuth;
 
 public class Request extends AppCompatActivity {
@@ -56,6 +60,10 @@ public class Request extends AppCompatActivity {
             if(TextUtils.isEmpty(Title)||TextUtils.isEmpty(Description)){
                 Toast.makeText(this, "All fields are Mandatory", Toast.LENGTH_SHORT).show();
             }else{
+//                owner.add(MainHostActivity.name);
+//                title.add(Title);
+//                description.add(Description);
+//                FragmentHome.recyclerViewAdapter.notifyDataSetChanged();
                 Requests.put("Title",Title);
                 Requests.put("Description",Description);
                 dbRef.document(mAuth.getUid()).collection("Request").document("Request"+Title).set(Requests).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -71,9 +79,6 @@ public class Request extends AppCompatActivity {
                 });
                 Requests.put("Owner",MainHostActivity.name);
                 requestRef.document(Title).set(Requests);
-
-
-
             }
         });
     }

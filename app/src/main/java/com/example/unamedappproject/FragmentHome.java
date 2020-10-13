@@ -11,6 +11,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -46,8 +47,10 @@ import static com.example.unamedappproject.RecyclerViewAdapterHome.CAMERA_REQUES
 public class FragmentHome extends Fragment {
     View v;
     private RecyclerView recyclerViewHome;
-    RecyclerViewAdapterHome recyclerViewAdapter;
+    public static RecyclerViewAdapterHome recyclerViewAdapter;
+    private SwipeRefreshLayout refreshLayout;
     static LinearLayoutManager mLayoutManager;
+    public static String description[], title[], owner[];
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -98,13 +101,38 @@ public class FragmentHome extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         v = inflater.inflate(R.layout.fragment_fragment_home, container, false);
+     //   refreshLayout = v.findViewById(R.id.refreshrequest);
         recyclerViewHome=(RecyclerView) v.findViewById(R.id.global_Requests);
         //logic will come to hide recyler view when no requests are there !
-
-        recyclerViewAdapter = new RecyclerViewAdapterHome(getContext());
-        recyclerViewHome.setAdapter(recyclerViewAdapter);
         mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerViewHome.setLayoutManager(mLayoutManager);
+
+//        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+//            @Override
+//            public void onRefresh() {
+//                refreshLayout.setRefreshing(true);
+//                recyclerViewAdapter = new RecyclerViewAdapterHome(getContext(),description,title,owner);
+//                recyclerViewHome.setAdapter(recyclerViewAdapter);
+//                refreshLayout.setRefreshing(false);
+//            }
+//        });
+
+        description = new String[MainActivity.c];
+        title = new String[MainActivity.c];
+        owner = new String[MainActivity.c];
+
+
+        for(int i = 0,x=0 ; i <= MainActivity.c -1 ; i++){
+            description[x]=MainActivity.description.get(i);
+            title[x]=MainActivity.title.get(i);
+            owner[x]=MainActivity.owner.get(i);
+            x++;
+        }
+
+
+        recyclerViewAdapter = new RecyclerViewAdapterHome(getContext(),description,title,owner);
+        recyclerViewHome.setAdapter(recyclerViewAdapter);
+
         return v;
 
     }

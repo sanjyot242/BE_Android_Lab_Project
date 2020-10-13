@@ -28,14 +28,17 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.play.core.tasks.OnCompleteListener;
 import com.google.android.play.core.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import static com.example.unamedappproject.RecyclerViewAdapterHome.CAMERA_REQUEST_CODE;
 import static com.example.unamedappproject.RecyclerViewAdapterHome.currentPhotoPath;
@@ -53,10 +56,12 @@ public class MainHostActivity extends AppCompatActivity
     MenuItem prevMenuItem;
     static String UID;
     private StorageReference mStorage;
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    static FirebaseFirestore db = FirebaseFirestore.getInstance();
+    //public static CollectionReference dbRef=db.collection("AllRequests");
     private static final int MY_CAMERA_REQUEST_CODE = 100;
     static String name;
     Compressor compressor;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +75,9 @@ public class MainHostActivity extends AppCompatActivity
         // .findFragmentById(R.id.fragNavHost);
         // navController = navHostFragment.getNavController();
         //
+
+
+
         DocumentReference docRef = db.collection("user").document(mAuth.getUid());
         docRef.get().addOnCompleteListener((com.google.android.gms.tasks.OnCompleteListener<DocumentSnapshot>) task -> {
             if (task.isSuccessful()) {
@@ -132,6 +140,8 @@ public class MainHostActivity extends AppCompatActivity
             requestPermissions(new String[] { Manifest.permission.CAMERA }, MY_CAMERA_REQUEST_CODE);
         }
     }
+
+
 
     @Override
     public void onFragmentInteraction(Uri uri) {

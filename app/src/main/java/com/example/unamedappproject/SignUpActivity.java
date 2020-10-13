@@ -61,6 +61,10 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
 
+        goToSignIn.setOnClickListener(v -> {
+            startActivity(new Intent(this,MainActivity.class));
+        });
+
 
 
 
@@ -107,6 +111,7 @@ public class SignUpActivity extends AppCompatActivity {
 
 
     private void updateUI(FirebaseUser user) {
+        MainActivity.FromSignUp = true;
         startActivity(new Intent(getApplicationContext(),MainActivity.class));
         finish();
     }

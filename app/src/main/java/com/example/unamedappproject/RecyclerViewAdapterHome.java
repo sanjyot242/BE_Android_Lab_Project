@@ -28,10 +28,16 @@ public class RecyclerViewAdapterHome extends RecyclerView.Adapter<RecyclerViewAd
     Context mContext;
     public static final int CAMERA_REQUEST_CODE = 1;
     public static String currentPhotoPath;
+    private String[] description;
+    private String[] title;
+    private String[] owner;
     static final int REQUEST_TAKE_PHOTO = 2;
 
-    public RecyclerViewAdapterHome(Context mContext){
+    public RecyclerViewAdapterHome(Context mContext,String description[],String tittle[],String owner[]){
         this.mContext = mContext;
+        this.description =  description;
+        this.title = tittle;
+        this.owner= owner;
     }
 
     @NonNull
@@ -45,14 +51,17 @@ public class RecyclerViewAdapterHome extends RecyclerView.Adapter<RecyclerViewAd
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerViewAdapterHome.MyViewHolder holder, int position) {
+        holder.description.setText(description[position]);
+        holder.title_name.setText(title[position]);
         holder.upload.setOnClickListener(v -> {
             dispatchTakePictureIntent();
         });
+
     }
 
     @Override
     public int getItemCount() {
-        return 5;
+        return description.length;
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {

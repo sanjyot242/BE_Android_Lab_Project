@@ -16,6 +16,11 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 
+import static com.example.unamedappproject.MainActivity.c;
+import static com.example.unamedappproject.MainActivity.description;
+import static com.example.unamedappproject.MainActivity.owner;
+import static com.example.unamedappproject.MainActivity.title;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -95,6 +100,11 @@ public class fragmentRight extends Fragment {
         });
 
         logout.setOnClickListener(v1 -> {
+            //clearing all arraylist for that user !
+            owner.clear();
+            description.clear();
+            title.clear();
+            c=0;
             FirebaseAuth.getInstance().signOut();
             Intent intent = new Intent(getContext(), MainActivity.class);// New activity
             startActivity(intent);

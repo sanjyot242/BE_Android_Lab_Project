@@ -24,6 +24,8 @@ import com.google.firebase.storage.StorageReference;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.example.unamedappproject.FragmentHome.recyclerViewAdapter;
+import static com.example.unamedappproject.MainActivity.c;
 import static com.example.unamedappproject.MainActivity.description;
 import static com.example.unamedappproject.MainActivity.owner;
 import static com.example.unamedappproject.MainActivity.title;
@@ -60,6 +62,10 @@ public class Request extends AppCompatActivity {
             if(TextUtils.isEmpty(Title)||TextUtils.isEmpty(Description)){
                 Toast.makeText(this, "All fields are Mandatory", Toast.LENGTH_SHORT).show();
             }else{
+                c++;
+                description.add(Description);
+                title.add(Title);
+                owner.add(MainHostActivity.name);
 //                owner.add(MainHostActivity.name);
 //                title.add(Title);
 //                description.add(Description);
@@ -79,7 +85,30 @@ public class Request extends AppCompatActivity {
                 });
                 Requests.put("Owner",MainHostActivity.name);
                 requestRef.document(Title).set(Requests);
+
+//                FragmentHome.description=new String[MainActivity.c];
+//                FragmentHome.title=new String[MainActivity.c];
+//                FragmentHome.owner=new String[MainActivity.c];
+//
+//                for(int i = 0,x=0 ; i <= MainActivity.c -1 ; i++){
+//                    FragmentHome.description[x]=MainActivity.description.get(i);
+//                    FragmentHome.title[x]=MainActivity.title.get(i);
+//                    FragmentHome.owner[x]=MainActivity.owner.get(i);
+//                    x++;
+//                }
+               // recyclerViewAdapter = new RecyclerViewAdapterHome(getApplicationContext(),FragmentHome.description,FragmentHome.title,FragmentHome.owner);
+               // FragmentHome.recyclerViewAdapter.notifyDataSetChanged();
+
+
+
             }
         });
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(this,MainHostActivity.class).putExtra("From","MyRequest"));
     }
 }

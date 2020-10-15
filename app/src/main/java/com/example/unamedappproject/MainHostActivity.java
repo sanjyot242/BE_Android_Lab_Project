@@ -61,6 +61,7 @@ public class MainHostActivity extends AppCompatActivity
     private static final int MY_CAMERA_REQUEST_CODE = 100;
     static String name;
     Compressor compressor;
+    String FromWhere ="";
 
 
     @Override
@@ -75,6 +76,28 @@ public class MainHostActivity extends AppCompatActivity
         // .findFragmentById(R.id.fragNavHost);
         // navController = navHostFragment.getNavController();
         //
+        Intent intentReload = getIntent();
+        FromWhere=intentReload.getStringExtra("From");
+
+
+        mStorage = FirebaseStorage.getInstance().getReference();
+
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setOnNavigationItemSelectedListener(navListner);
+
+        // Instantiate a ViewPager and a PagerAdapter.
+        mPager = (ViewPager) findViewById(R.id.pager);
+        pagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(),
+                FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+        mPager.setAdapter(pagerAdapter);
+
+        if (FromWhere != null) {
+            if ("MyRequest".equals(FromWhere)) {
+                mPager.setCurrentItem(3);
+                bottomNavigationView.getMenu().findItem(R.id.nav_right).setChecked(true);
+            }
+        }
+
 
 
 
@@ -93,18 +116,11 @@ public class MainHostActivity extends AppCompatActivity
             }
         });
 
-        mStorage = FirebaseStorage.getInstance().getReference();
 
-        bottomNavigationView = findViewById(R.id.bottom_navigation);
-        bottomNavigationView.setOnNavigationItemSelectedListener(navListner);
 
         // NavigationUI.setupWithNavController(bottomNavigationView, navController);
 
-        // Instantiate a ViewPager and a PagerAdapter.
-        mPager = (ViewPager) findViewById(R.id.pager);
-        pagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(),
-                FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
-        mPager.setAdapter(pagerAdapter);
+
 
         mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override

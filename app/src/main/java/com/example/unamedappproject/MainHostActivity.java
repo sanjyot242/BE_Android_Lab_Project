@@ -23,6 +23,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.play.core.tasks.OnCompleteListener;
@@ -34,13 +35,16 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.ListResult;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
 import java.util.ArrayList;
 
+import static com.example.unamedappproject.MainActivity.dbRef;
 import static com.example.unamedappproject.RecyclerViewAdapterHome.CAMERA_REQUEST_CODE;
+import static com.example.unamedappproject.RecyclerViewAdapterHome.UplodingDataSetName;
 import static com.example.unamedappproject.RecyclerViewAdapterHome.currentPhotoPath;
 import static com.example.unamedappproject.SignUpActivity.mAuth;
 
@@ -97,6 +101,10 @@ public class MainHostActivity extends AppCompatActivity
                 bottomNavigationView.getMenu().findItem(R.id.nav_right).setChecked(true);
             }
         }
+
+
+
+
 
 
 
@@ -208,6 +216,7 @@ public class MainHostActivity extends AppCompatActivity
         }
     }
 
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -217,14 +226,20 @@ public class MainHostActivity extends AppCompatActivity
             if (!compressor.compressfile(file, getApplicationContext())) {
                 File cmpfile = new File(Compressor.compressedfile);
                 Uri uri = Uri.fromFile(cmpfile);
-                StorageReference filePath = mStorage.child("DataSets").child("nameDataSet")
+                StorageReference filePath = mStorage.child("DataSets").child(UplodingDataSetName)
                         .child(uri.getLastPathSegment());
                 filePath.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                         Toast.makeText(MainHostActivity.this, "Image Upload Successfull", Toast.LENGTH_LONG).show();
+                        Upload upload =  new Upload(taskSnapshot.getUploadSessionUri().toString());
+                        Log.i(TAG, "Bucket: "+ mStorage.child("DataSets").child(UplodingDataSetName));
+                        dbRef.document(UplodingDataSetName).update("imageUrl",mStorage.child("DataSets").child(UplodingDataSetName).toString());
+
                     }
                 });
+
+
             } else {
 
             }

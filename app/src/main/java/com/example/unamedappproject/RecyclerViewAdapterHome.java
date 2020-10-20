@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.FileProvider;
@@ -23,11 +24,14 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import static androidx.core.app.ActivityCompat.startActivityForResult;
+import static androidx.core.content.ContextCompat.startActivity;
 
 public class RecyclerViewAdapterHome extends RecyclerView.Adapter<RecyclerViewAdapterHome.MyViewHolder> {
     Context mContext;
     public static final int CAMERA_REQUEST_CODE = 1;
     public static String currentPhotoPath;
+    public static String UplodingDataSetName;
+    public static String currentVisitedDatasetName;
     private String[] description;
     private String[] title;
     private String[] owner;
@@ -54,8 +58,18 @@ public class RecyclerViewAdapterHome extends RecyclerView.Adapter<RecyclerViewAd
         holder.description.setText(description[position]);
         holder.title_name.setText(title[position]);
         holder.upload.setOnClickListener(v -> {
+            UplodingDataSetName = holder.title_name.getText().toString();
             dispatchTakePictureIntent();
         });
+
+        holder.explore.setOnClickListener(v -> {
+            //will open recycler view to display the sample images !
+            currentVisitedDatasetName = holder.title_name.getText().toString().trim();
+            Intent i = new Intent(mContext,exploreRequest.class);
+            mContext.startActivity(i);
+            Toast.makeText(mContext, "Open recycler view to display sample images ! ", Toast.LENGTH_SHORT).show();
+        });
+
 
     }
 
@@ -66,13 +80,14 @@ public class RecyclerViewAdapterHome extends RecyclerView.Adapter<RecyclerViewAd
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         private TextView title_name,description;
-        private Button upload;
+        private Button upload,explore;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
             title_name = (TextView) itemView.findViewById(R.id.title_dataset);
             description = (TextView) itemView.findViewById(R.id.description);
             upload=(Button) itemView.findViewById(R.id.upload);
+            explore=(Button) itemView.findViewById(R.id.explore);
 
         }
     }

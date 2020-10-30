@@ -60,7 +60,7 @@
         android:layout_marginLeft="30dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="My Request's"
+        android:text="Create Request's"
         android:textSize="25sp"
         android:fontFamily="@font/roboto_thin"
         android:textColor="@color/BlackColor"/>

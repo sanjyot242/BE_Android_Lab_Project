@@ -36,6 +36,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.ListResult;
+import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
@@ -235,6 +236,13 @@ public class MainHostActivity extends AppCompatActivity
                         Upload upload =  new Upload(taskSnapshot.getUploadSessionUri().toString());
                         Log.i(TAG, "Bucket: "+ mStorage.child("DataSets").child(UplodingDataSetName));
                         dbRef.document(UplodingDataSetName).update("imageUrl",mStorage.child("DataSets").child(UplodingDataSetName).toString());
+                        // Create file metadata including the content type
+                        StorageMetadata metadata = new StorageMetadata.Builder()
+                                .setContentType("image/jpg")
+                                .setCustomMetadata("Status", "Unverified")
+                                .build();
+
+                        filePath.updateMetadata(metadata);
 
                     }
                 });

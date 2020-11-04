@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText inputUsernme, inputPassword;
     private TextView goToSignup;
     private Button signIn;
-    private static FirebaseAuth mAuth;
+    public static FirebaseAuth mAuth;
     private ProgressDialog mProgressDialog;
     public static ArrayList<String> description=new ArrayList<String>(),title=new ArrayList<String>(),owner=new ArrayList<String>();
     public static int c = 0;

@@ -20,6 +20,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.ListResult;
 import com.google.firebase.storage.StorageMetadata;
@@ -29,6 +32,7 @@ import java.util.ArrayList;
 
 import static com.example.unamedappproject.MainActivity.Mdescription;
 import static com.example.unamedappproject.MainActivity.Mtitle;
+import static com.example.unamedappproject.MainActivity.mAuth;
 import static com.example.unamedappproject.RecyclerViewAdapterHome.currentVisitedDatasetName;
 
 
@@ -49,7 +53,8 @@ public class fragmentLeft extends Fragment {
     public static RecyclerViewAdapterLeft recyclerViewAdapterLeft;
     static LinearLayoutManager mLayoutManager;
     private StorageReference mStorage;
-    ArrayList<String> forModeration = new ArrayList<>();
+    static FirebaseFirestore db = FirebaseFirestore.getInstance();
+
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -100,6 +105,12 @@ public class fragmentLeft extends Fragment {
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerViewAdapterLeft = new RecyclerViewAdapterLeft(getContext(),Mdescription,Mtitle);
         recyclerView.setAdapter(recyclerViewAdapterLeft);
+
+        Log.i("TAG", "onCreateView: "+mAuth.getUid());
+
+
+
+
 //        StorageReference listRef = mStorage.child("/DataSets/"+"New Request");
 //        listRef.listAll()
 //                .addOnSuccessListener(new OnSuccessListener<ListResult>() {

@@ -4,11 +4,32 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.ListResult;
+import com.google.firebase.storage.StorageMetadata;
+import com.google.firebase.storage.StorageReference;
+
+import java.util.ArrayList;
+
+import static com.example.unamedappproject.MainActivity.Mdescription;
+import static com.example.unamedappproject.MainActivity.Mtitle;
+import static com.example.unamedappproject.RecyclerViewAdapterHome.currentVisitedDatasetName;
 
 
 /**
@@ -24,10 +45,16 @@ public class fragmentLeft extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    public static RecyclerView recyclerView;
+    public static RecyclerViewAdapterLeft recyclerViewAdapterLeft;
+    static LinearLayoutManager mLayoutManager;
+    private StorageReference mStorage;
+    ArrayList<String> forModeration = new ArrayList<>();
 
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+   //Toolbar toolbar;
 
     private OnFragmentInteractionListener mListener;
 
@@ -66,7 +93,57 @@ public class fragmentLeft extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_fragment_left, container, false);
+        View v = inflater.inflate(R.layout.fragment_fragment_left, container, false);
+        recyclerView=v.findViewById(R.id.moderateRecyclerView);
+        mStorage = FirebaseStorage.getInstance().getReference();
+        mLayoutManager = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerViewAdapterLeft = new RecyclerViewAdapterLeft(getContext(),Mdescription,Mtitle);
+        recyclerView.setAdapter(recyclerViewAdapterLeft);
+//        StorageReference listRef = mStorage.child("/DataSets/"+"New Request");
+//        listRef.listAll()
+//                .addOnSuccessListener(new OnSuccessListener<ListResult>() {
+//                    @Override
+//                    public void onSuccess(ListResult listResult) {
+////                        for (StorageReference prefix : listResult.getPrefixes()) {
+////                            // All the prefixes under listRef.
+////                            // You may call listAll() recursively on them.
+////
+//                        for (StorageReference item : listResult.getItems()) {
+//                            // All the items under listRef.
+//                            item.getMetadata().addOnSuccessListener(new OnSuccessListener<StorageMetadata>() {
+//                                @Override
+//                                public void onSuccess(StorageMetadata storageMetadata) {
+//                                    Log.i("TAG", "onSuccess: "+storageMetadata.getCustomMetadata("Status"));
+//                                    if(storageMetadata.getCustomMetadata("Status")=="Unverified"){
+//                                       item.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+//                                           @Override
+//                                           public void onSuccess(Uri uri) {
+//                                               String Url = uri.toString();
+//                                               forModeration.add(Url);
+//                                               Log.i("TAG", "ArrayList"+forModeration);
+//                                           }
+//                                       });
+//                                    }
+//                                }
+//                            }).addOnFailureListener(new OnFailureListener() {
+//                                @Override
+//                                public void onFailure(@NonNull Exception exception) {
+//                                    // Handle any errors
+//                                }
+//                            });
+//                        }
+////                        imageAdapter = new ExploreRequestsAdapter(exploreRequest.this,downloadUrl);
+////                        recyclerViewExplore.setAdapter(imageAdapter);
+////                        Log.i(TAG, "onCreate: "+downloadUrl);
+//                    }
+//                }).addOnFailureListener(new OnFailureListener() {
+//            @Override
+//            public void onFailure(@NonNull Exception e) {
+//
+//            }
+//        });
+        return v;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

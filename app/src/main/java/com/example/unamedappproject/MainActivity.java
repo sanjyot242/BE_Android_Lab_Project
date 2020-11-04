@@ -33,12 +33,14 @@ public class MainActivity extends AppCompatActivity {
     private EditText inputUsernme, inputPassword;
     private TextView goToSignup;
     private Button signIn;
-    private FirebaseAuth mAuth;
+    private static FirebaseAuth mAuth;
     private ProgressDialog mProgressDialog;
     public static ArrayList<String> description=new ArrayList<String>(),title=new ArrayList<String>(),owner=new ArrayList<String>();
     public static int c = 0;
+    public static ArrayList<String> Mdescription=new ArrayList<String>(),Mtitle=new ArrayList<String>();
     static FirebaseFirestore db = FirebaseFirestore.getInstance();
     public static CollectionReference dbRef=db.collection("AllRequests");
+    public static CollectionReference dbRef1 = db.collection("user");
     static Boolean FromSignUp=false;
 
 // Initialize Firebase Auth
@@ -101,6 +103,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void updateUI(FirebaseUser user) {
         loadData();
+        loadMyData();
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -143,6 +146,24 @@ public class MainActivity extends AppCompatActivity {
                             c++;
                             Log.i("TAG", "onSuccess: "+description);
                         }
+                    }
+                });
+    }
+
+    public static void loadMyData(){
+        Mdescription.clear();
+        Mtitle.clear();
+        dbRef1.document(mAuth.getUid()).collection("Request").get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        for(DocumentSnapshot documentSnapshot : queryDocumentSnapshots){
+                            MyRequest request = documentSnapshot.toObject(MyRequest.class);
+                            request.setDocumentId(documentSnapshot.getId());
+                            Mdescription.add(request.getDescription());
+                            Mtitle.add(request.getTitle());
+                        }
+
                     }
                 });
     }

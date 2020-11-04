@@ -23,6 +23,7 @@
 <!--            app:navGraph="@navigation/nav_graph" />-->
     </FrameLayout>
 
+
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/pager"
         android:layout_width="match_parent"

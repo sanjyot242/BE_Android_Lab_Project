@@ -18,9 +18,9 @@ import java.util.List;
 
 public class ExploreRequestsAdapter extends RecyclerView.Adapter<ExploreRequestsAdapter.ImageViewHolder>{
     private Context mContext;
-    private List<Uri> downloadUrl;
+    private List<String> downloadUrl;
 
-    public ExploreRequestsAdapter(Context context,List<Uri> urls){
+    public ExploreRequestsAdapter(Context context,List<String> urls){
         mContext = context;
         downloadUrl = urls;
     }
@@ -35,15 +35,15 @@ public class ExploreRequestsAdapter extends RecyclerView.Adapter<ExploreRequests
 
     @Override
     public void onBindViewHolder(@NonNull ImageViewHolder holder, int position) {
-        Uri currentUrl = downloadUrl.get(position);
+        String currentUrl = downloadUrl.get(position);
         Picasso.get()
-                .load(String.valueOf(currentUrl))
+                .load(currentUrl)
                 .into(holder.imageView);
     }
 
     @Override
     public int getItemCount() {
-       return downloadUrl.size();
+            return downloadUrl.size();
     }
 
     public class ImageViewHolder extends RecyclerView.ViewHolder{

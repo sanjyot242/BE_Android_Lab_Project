@@ -5,4 +5,5 @@
     <color name="colorAccent">#D81B60</color>
     <color name="TagColor">#C2C8CD</color>
     <color name="BlackColor">#080808</color>
+    <color name="white">#ffffff</color>
 </resources>

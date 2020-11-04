@@ -14,6 +14,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.Manifest;
 import android.annotation.TargetApi;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -32,18 +33,23 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.ListResult;
+import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.example.unamedappproject.MainActivity.dbRef;
+import static com.example.unamedappproject.MainActivity.dbRef1;
 import static com.example.unamedappproject.RecyclerViewAdapterHome.CAMERA_REQUEST_CODE;
 import static com.example.unamedappproject.RecyclerViewAdapterHome.UplodingDataSetName;
 import static com.example.unamedappproject.RecyclerViewAdapterHome.currentPhotoPath;
@@ -67,6 +73,7 @@ public class MainHostActivity extends AppCompatActivity
     static String name;
     Compressor compressor;
     String FromWhere ="";
+    Map<String, Object> ImageData = new HashMap<>();
 
 
     @Override
@@ -222,7 +229,9 @@ public class MainHostActivity extends AppCompatActivity
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CAMERA_REQUEST_CODE && resultCode == RESULT_OK) {
-
+            final ProgressDialog progressDialog = new ProgressDialog(this);
+            progressDialog.setTitle("Uploading...");
+            progressDialog.show();
             File file = new File(currentPhotoPath);
             if (!compressor.compressfile(file, getApplicationContext())) {
                 File cmpfile = new File(Compressor.compressedfile);
@@ -232,23 +241,49 @@ public class MainHostActivity extends AppCompatActivity
                 filePath.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        progressDialog.dismiss();
+
+                        filePath.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                String url = uri.toString();
+                                ImageData.put("Status","Unverified");
+                                ImageData.put("url",url);
+                                dbRef.document(UplodingDataSetName).update("imageUrls", FieldValue.arrayUnion(url));
+                                dbRef1.document(mAuth.getUid()).collection("Request").document(UplodingDataSetName)
+                                        .collection("ImageStatus").add(ImageData);
+                            }
+                        });
                         Toast.makeText(MainHostActivity.this, "Image Upload Successfull", Toast.LENGTH_LONG).show();
                         Upload upload =  new Upload(taskSnapshot.getUploadSessionUri().toString());
+                        //dbRef.document(UplodingDataSetName).update("imageUrls", FieldValue.arrayUnion(myUrl));
                         Log.i(TAG, "Bucket: "+ mStorage.child("DataSets").child(UplodingDataSetName));
-                        dbRef.document(UplodingDataSetName).update("imageUrl",mStorage.child("DataSets").child(UplodingDataSetName).toString());
+                       // dbRef.document(UplodingDataSetName).update("imageUrl",mStorage.child("DataSets").child(UplodingDataSetName).toString());
                         // Create file metadata including the content type
                         StorageMetadata metadata = new StorageMetadata.Builder()
                                 .setContentType("image/jpg")
-                                .setCustomMetadata("Status", "Unverified")
+                                .setCustomMetadata("Status", "Verified")
                                 .build();
 
                         filePath.updateMetadata(metadata);
 
                     }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        progressDialog.dismiss();
+                        Toast.makeText(MainHostActivity.this, "Failed "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                    }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
+                        double progress = (100.0*snapshot.getBytesTransferred()/snapshot
+                                .getTotalByteCount());
+                        progressDialog.setMessage("Uploaded "+(int)progress+"%");
+                    }
                 });
 
-
-            } else {
+            } else{
 
             }
         }

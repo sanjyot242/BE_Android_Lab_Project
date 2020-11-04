@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
@@ -34,6 +35,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.example.unamedappproject.MainActivity.Mdescription;
+import static com.example.unamedappproject.MainActivity.Mtitle;
 import static com.example.unamedappproject.MainActivity.c;
 import static com.example.unamedappproject.MainActivity.description;
 import static com.example.unamedappproject.MainActivity.owner;
@@ -97,14 +100,17 @@ public class Request extends AppCompatActivity {
                 c++;
                 description.add(Description);
                 title.add(Title);
-                owner.add(MainHostActivity.name);
+                owner.add(FirebaseAuth.getInstance().getUid());
+                Mtitle.add(Title);
+                Mdescription.add(Description);
+                fragmentLeft.recyclerViewAdapterLeft.notifyDataSetChanged();
 //                owner.add(MainHostActivity.name);
 //                title.add(Title);
 //                description.add(Description);
 //                FragmentHome.recyclerViewAdapter.notifyDataSetChanged();
                 Requests.put("Title",Title);
                 Requests.put("Description",Description);
-                dbRef.document(mAuth.getUid()).collection("Request").document("Request"+Title).set(Requests).addOnSuccessListener(new OnSuccessListener<Void>() {
+                dbRef.document(mAuth.getUid()).collection("Request").document(Title).set(Requests).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Toast.makeText(Request.this, "Upload and created", Toast.LENGTH_SHORT).show();
@@ -115,7 +121,7 @@ public class Request extends AppCompatActivity {
                         Log.i("TAG", "onFailure: "+e.getMessage());
                     }
                 });
-                Requests.put("Owner",MainHostActivity.name);
+                Requests.put("Owner",FirebaseAuth.getInstance().getUid());
                 requestRef.document(Title).set(Requests);
 
 //                FragmentHome.description=new String[MainActivity.c];

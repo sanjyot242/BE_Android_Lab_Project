@@ -27,6 +27,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import static com.example.unamedappproject.RecyclerViewAdapterHome.currentVisitedDatasetName;
 
@@ -36,7 +37,7 @@ public class exploreRequest extends AppCompatActivity {
     private ExploreRequestsAdapter imageAdapter;
 
     private ArrayList<Uri> downloadUrl;
-    ArrayList<String> urls;
+    ArrayList<Map> urls;
     private StorageReference mStorage;
     static FirebaseFirestore db = FirebaseFirestore.getInstance();
     public static CollectionReference dbRef=db.collection("AllRequests");
@@ -54,7 +55,7 @@ public class exploreRequest extends AppCompatActivity {
         recyclerViewExplore.setLayoutManager(new LinearLayoutManager(this));
 
         downloadUrl = new ArrayList<>();
-        urls = new ArrayList<>();
+        urls = new ArrayList<Map>();
 
         dbRef.document(currentVisitedDatasetName).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -63,7 +64,9 @@ public class exploreRequest extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     urls.clear();
                     DocumentSnapshot document = task.getResult();
-                    urls= (ArrayList<String>) document.get("imageUrls");
+                    Log.i(TAG, "document:" + document.toString());
+                    urls= (ArrayList<Map>) document.get("imageUrls");
+                    Log.i("gathered URLS:", urls.toString());
                         imageAdapter = new ExploreRequestsAdapter(exploreRequest.this, urls);
                         recyclerViewExplore.setAdapter(imageAdapter);
                         Log.i(TAG, "onCreate: " + urls);

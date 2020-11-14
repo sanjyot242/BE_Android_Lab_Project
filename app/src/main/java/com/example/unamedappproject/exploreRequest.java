@@ -26,8 +26,10 @@ import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import static com.example.unamedappproject.RecyclerViewAdapterHome.currentVisitedDatasetName;
 
@@ -36,7 +38,7 @@ public class exploreRequest extends AppCompatActivity {
     private RecyclerView recyclerViewExplore;
     private ExploreRequestsAdapter imageAdapter;
 
-    private ArrayList<Uri> downloadUrl;
+    private ArrayList<String> downloadUrl;
     ArrayList<Map> urls;
     private StorageReference mStorage;
     static FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -60,20 +62,92 @@ public class exploreRequest extends AppCompatActivity {
         dbRef.document(currentVisitedDatasetName).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                urls.clear();
                 Log.i(TAG, "onComplete: "+currentVisitedDatasetName);
                 if (task.isSuccessful()) {
-                    urls.clear();
                     DocumentSnapshot document = task.getResult();
                     Log.i(TAG, "document:" + document.toString());
                     urls= (ArrayList<Map>) document.get("imageUrls");
+
                     Log.i("gathered URLS:", urls.toString());
+
+                    int regionIndex = 1;
+                    //logic to only pass url withboth true
+                    for(Map region : urls) {
+
+                        System.out.println("\nPart of list - " + regionIndex);
+                        System.out.println("============================"
+                                + "======================");
+
+                        // get entrySet() into Set
+                        Set<String> setOfIndianStates = region.keySet();
+
+                        // Collection Iterator
+                        Iterator<String> iterator =
+                                setOfIndianStates.iterator();
+
+                        // iterate using while-loop after getting Iterator
+                        while(iterator.hasNext()) {
+                            String key = iterator.next();
+                            System.out.println(  key
+                                    + "\t " + region.get(key));
+                            if(key=="correct"&&region.get(key)=="true"){
+                                downloadUrl.add(String.valueOf(region.get("img_url")));
+                            }
+                        }
+
+                        // increment region index by 1
+                        regionIndex++;
+                    }
+
+                    Log.i(TAG, "onComplete: "+downloadUrl);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    for(int i =0 ; i <= urls.size()-1;i++){
+                        if(urls.get(i).get("correct").toString()!="true"){
+                            Log.i(TAG, "onComplete: "+urls.get(i).get("correct").toString());
+                            urls.remove(i);
+                        }
+
+                        Log.i(TAG, "onComplete: "+i);
+                    }
+
+                    if(urls!=null) {
+                        Log.i("gathered URLS:", urls.toString());
                         imageAdapter = new ExploreRequestsAdapter(exploreRequest.this, urls);
                         recyclerViewExplore.setAdapter(imageAdapter);
                         Log.i(TAG, "onCreate: " + urls);
 
+                    }else{
+                        Toast.makeText(exploreRequest.this, "Empty ImageSet", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
+
+
+
+
+
+
         StorageReference listRef = mStorage.child("/DataSets/"+currentVisitedDatasetName);
 
 

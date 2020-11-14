@@ -2,6 +2,7 @@ package com.example.unamedappproject;
 
 import android.content.Context;
 import android.preference.SwitchPreference;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,10 +27,11 @@ import java.util.Map;
 
 public class ModerateImagesAdapter extends RecyclerView.Adapter<ModerateImagesAdapter.MyViewHolder>  {
     private Context mContext;
-    private List<String> moderateImageUrls;
+    private List<Map> moderateImageUrls;
+
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     DocumentReference docRef = db.collection("AllRequests").document(RecyclerViewAdapterHome.currentVisitedDatasetName);
-    public ModerateImagesAdapter(Context context,List<String> urls){
+    public ModerateImagesAdapter(Context context,List<Map> urls){
         mContext = context;
         moderateImageUrls = urls;
     }
@@ -44,7 +46,7 @@ public class ModerateImagesAdapter extends RecyclerView.Adapter<ModerateImagesAd
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        String currentUrl = moderateImageUrls.get(position);
+        String currentUrl = moderateImageUrls.get(position).get("img_url").toString();
         Picasso.get()
                 .load(currentUrl)
                 .into(holder.imageView);
@@ -57,12 +59,24 @@ public class ModerateImagesAdapter extends RecyclerView.Adapter<ModerateImagesAd
         });
 
         holder.verify.setOnClickListener(v -> {
-            Toast.makeText(mContext, "Image will e verified", Toast.LENGTH_SHORT).show();
+            //append this map to imageUrls
+            Map<String, Object> image_data = new HashMap<>();
+            image_data.put("img_url", currentUrl);
+            image_data.put("verified", true);
+            image_data.put("correct", true);
+            docRef.update("imageUrls",FieldValue.arrayRemove(moderateImageUrls.get(position)));
+            docRef.update("imageUrls",FieldValue.arrayUnion(image_data));
+//            moderateImageUrls.remove(position);
+//            moderateImageUrls.add(image_data);
+            notifyDataSetChanged();
+
+
         });
     }
 
     @Override
     public int getItemCount() {
+        Log.i("TAG", "getItemCount: "+moderateImageUrls.size());
         return moderateImageUrls.size();
     }
 

@@ -15,15 +15,17 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.Source;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import static com.example.unamedappproject.MainActivity.mAuth;
 import static com.example.unamedappproject.RecyclerViewAdapterHome.currentVisitedDatasetName;
 
 public class ModerateImages extends AppCompatActivity {
     RecyclerView recyclerViewModerateImage;
-    ArrayList<String> moderateImageUrls;
+    ArrayList<Map> moderateImageUrls;
     private ModerateImagesAdapter moderateImagesAdapter;
     static FirebaseFirestore db = FirebaseFirestore.getInstance();
 //    private CollectionReference dbRef=db.collection("users").document(mAuth.getUid())
@@ -37,7 +39,7 @@ public static CollectionReference dbRef=db.collection("AllRequests");
         recyclerViewModerateImage = findViewById(R.id.moderateImageRecyclerView);
         recyclerViewModerateImage.setHasFixedSize(true);
         recyclerViewModerateImage.setLayoutManager(new LinearLayoutManager(this));
-        moderateImageUrls = new ArrayList<>();
+        moderateImageUrls = new ArrayList<Map>();
         //Log.i("TAG", "onCreate: ");
 
 
@@ -48,14 +50,20 @@ public static CollectionReference dbRef=db.collection("AllRequests");
                 if (task.isSuccessful()) {
                     moderateImageUrls.clear();
                     DocumentSnapshot document = task.getResult();
-                    moderateImageUrls= (ArrayList<String>) document.get("imageUrls");
+                    moderateImageUrls= (ArrayList<Map>) document.get("imageUrls");
                     moderateImagesAdapter = new ModerateImagesAdapter(ModerateImages.this, moderateImageUrls);
                     recyclerViewModerateImage.setAdapter(moderateImagesAdapter);
-                    Log.i("TAG", "onCreate: " + moderateImageUrls);
-
                 }
             }
         });
+
+
+
+
+      //  Log.i("TAG", "onCreate: "+dbRef.document(currentVisitedDatasetName).get(Source.valueOf("imageUrls")));
+
+
+
 
 //        dbRef.document(currentVisitedDatasetName).collection("ImageStatus")
 //                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {

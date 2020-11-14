@@ -74,6 +74,7 @@ public class MainHostActivity extends AppCompatActivity
     Compressor compressor;
     String FromWhere ="";
     Map<String, Object> ImageData = new HashMap<>();
+    Map<String, Object> image_data = new HashMap<>();
 
 
     @Override
@@ -249,9 +250,16 @@ public class MainHostActivity extends AppCompatActivity
                                 String url = uri.toString();
                                 ImageData.put("Status","Unverified");
                                 ImageData.put("url",url);
-                                dbRef.document(UplodingDataSetName).update("imageUrls", FieldValue.arrayUnion(url));
+                                //append this map to imageUrls
+                                image_data.put("img_url", url);
+                                image_data.put("verified", false);
+                                image_data.put("correct", false);
+                                //dbRef.document(UplodingDataSetName).update("imageUrls", FieldValue.arrayUnion(url));
+                                dbRef.document(UplodingDataSetName).update("imageUrls", FieldValue.arrayUnion(image_data));
+                                //dbRef1.document(mAuth.getUid()).collection("Request").document(UplodingDataSetName)
+                                //        .collection("ImageStatus").add(ImageData);
                                 dbRef1.document(mAuth.getUid()).collection("Request").document(UplodingDataSetName)
-                                        .collection("ImageStatus").add(ImageData);
+                                        .collection("ImageStatus").add(image_data);
                             }
                         });
                         Toast.makeText(MainHostActivity.this, "Image Upload Successfull", Toast.LENGTH_LONG).show();

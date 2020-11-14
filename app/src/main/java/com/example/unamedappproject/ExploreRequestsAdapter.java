@@ -2,6 +2,7 @@ package com.example.unamedappproject;
 
 import android.content.Context;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,12 +16,14 @@ import com.squareup.picasso.Picasso;
 import java.net.URI;
 import java.net.URL;
 import java.util.List;
+import java.util.Map;
 
 public class ExploreRequestsAdapter extends RecyclerView.Adapter<ExploreRequestsAdapter.ImageViewHolder>{
     private Context mContext;
-    private List<String> downloadUrl;
+    private List<Map> downloadUrl;
+    private static final String TAG = "ExploreRequestsAdapter";
 
-    public ExploreRequestsAdapter(Context context,List<String> urls){
+    public ExploreRequestsAdapter(Context context,List<Map> urls){
         mContext = context;
         downloadUrl = urls;
     }
@@ -35,7 +38,8 @@ public class ExploreRequestsAdapter extends RecyclerView.Adapter<ExploreRequests
 
     @Override
     public void onBindViewHolder(@NonNull ImageViewHolder holder, int position) {
-        String currentUrl = downloadUrl.get(position);
+        String currentUrl = downloadUrl.get(position).get("img_url").toString();
+        Log.i(TAG, "onBindViewHolder: currentURL" + currentUrl);
         Picasso.get()
                 .load(currentUrl)
                 .into(holder.imageView);

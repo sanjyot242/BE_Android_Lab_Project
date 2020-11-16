@@ -2,6 +2,7 @@ package com.example.unamedappproject;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -51,8 +52,11 @@ public static CollectionReference dbRef=db.collection("AllRequests");
                     moderateImageUrls.clear();
                     DocumentSnapshot document = task.getResult();
                     moderateImageUrls= (ArrayList<Map>) document.get("imageUrls");
+                    Log.e("TAG", "onComplete: "+moderateImageUrls);
                     moderateImagesAdapter = new ModerateImagesAdapter(ModerateImages.this, moderateImageUrls);
                     recyclerViewModerateImage.setAdapter(moderateImagesAdapter);
+                }else{
+                    Toast.makeText(ModerateImages.this, "UnsuccessFull", Toast.LENGTH_SHORT).show();
                 }
             }
         });

@@ -4,6 +4,7 @@ public class MyRequest {
     private String documentId;
     private String Description;
     private String Title;
+    private String background;
 
 
 
@@ -32,4 +33,11 @@ public class MyRequest {
     }
 
 
+    public String getBackground() {
+        return background;
+    }
+
+    public void setBackground(String background) {
+        this.background = background;
+    }
 }

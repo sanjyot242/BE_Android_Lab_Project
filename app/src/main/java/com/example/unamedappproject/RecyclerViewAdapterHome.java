@@ -3,10 +3,14 @@ package com.example.unamedappproject;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
+import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,8 +19,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import java.io.File;
 import java.io.IOException;
@@ -35,6 +44,7 @@ public class RecyclerViewAdapterHome extends RecyclerView.Adapter<RecyclerViewAd
     private String[] description;
     private String[] title;
     private String[] owner;
+
     static final int REQUEST_TAKE_PHOTO = 2;
 
     public RecyclerViewAdapterHome(Context mContext,String description[],String tittle[],String owner[]){
@@ -42,6 +52,7 @@ public class RecyclerViewAdapterHome extends RecyclerView.Adapter<RecyclerViewAd
         this.description =  description;
         this.title = tittle;
         this.owner= owner;
+
     }
 
     @NonNull
@@ -62,6 +73,10 @@ public class RecyclerViewAdapterHome extends RecyclerView.Adapter<RecyclerViewAd
             dispatchTakePictureIntent();
         });
 
+
+
+
+
         holder.explore.setOnClickListener(v -> {
             //will open recycler view to display the sample images !
             currentVisitedDatasetName = holder.title_name.getText().toString().trim();
@@ -80,10 +95,11 @@ public class RecyclerViewAdapterHome extends RecyclerView.Adapter<RecyclerViewAd
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         private TextView title_name,description;
+        private ConstraintLayout layout;
         private Button upload,explore;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-
+            layout = (ConstraintLayout) itemView.findViewById(R.id.layout);
             title_name = (TextView) itemView.findViewById(R.id.title_dataset);
             description = (TextView) itemView.findViewById(R.id.description);
             upload=(Button) itemView.findViewById(R.id.upload);

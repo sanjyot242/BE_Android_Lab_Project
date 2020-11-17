@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
@@ -72,7 +73,13 @@ public class ModerateImagesAdapter extends RecyclerView.Adapter<ModerateImagesAd
                 image_data.put("verified", true);
                 image_data.put("correct", true);
                 docRef.update("imageUrls", FieldValue.arrayRemove(moderateImageUrls.get(position)));
-                docRef.update("imageUrls", FieldValue.arrayUnion(image_data));
+                docRef.update("imageUrls", FieldValue.arrayUnion(image_data))
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Toast.makeText(mContext, "Image is verification Successful", Toast.LENGTH_SHORT).show();
+                            }
+                        });
 //            moderateImageUrls.remove(position);
 //            moderateImageUrls.add(image_data);
                 notifyDataSetChanged();

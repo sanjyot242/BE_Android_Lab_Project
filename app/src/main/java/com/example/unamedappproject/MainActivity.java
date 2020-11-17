@@ -127,6 +127,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public static void loadData() {
+        Log.i("TAG", "loadingData ");
         owner.clear();
         description.clear();
         title.clear();

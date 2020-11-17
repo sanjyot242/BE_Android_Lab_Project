@@ -53,6 +53,7 @@ public class fragmentLeft extends Fragment {
     public static RecyclerView recyclerView;
     public static RecyclerViewAdapterLeft recyclerViewAdapterLeft;
     static LinearLayoutManager mLayoutManager;
+    static TextView textView;
     Toolbar toolbar;
     private StorageReference mStorage;
     static FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -104,18 +105,11 @@ public class fragmentLeft extends Fragment {
         toolbar = (Toolbar)v.findViewById(R.id.toolbar_myRequests);
         recyclerView=v.findViewById(R.id.moderateRecyclerView);
         mStorage = FirebaseStorage.getInstance().getReference();
-        TextView textView = v.findViewById(R.id.textEmpty);
+        textView = v.findViewById(R.id.textEmpty);
         mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(mLayoutManager);
-        if(Mdescription.size()<1){
-            recyclerView.setVisibility(View.GONE);
-            textView.setVisibility(View.VISIBLE);
-        }else{
-            textView.setVisibility(View.GONE);
-            recyclerView.setVisibility(View.VISIBLE);
-            recyclerViewAdapterLeft = new RecyclerViewAdapterLeft(getContext(),Mdescription,Mtitle);
-            recyclerView.setAdapter(recyclerViewAdapterLeft);
-        }
+        initRecylerView(getContext());
+
 
 
         Log.i("TAG", "onCreateView: "+mAuth.getUid());
@@ -191,6 +185,18 @@ public class fragmentLeft extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    public static void initRecylerView(Context context){
+        if(Mdescription.size()<1){
+            recyclerView.setVisibility(View.GONE);
+            textView.setVisibility(View.VISIBLE);
+        }else{
+            textView.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
+            recyclerViewAdapterLeft = new RecyclerViewAdapterLeft(context,Mdescription,Mtitle);
+            recyclerView.setAdapter(recyclerViewAdapterLeft);
+        }
     }
 
     /**

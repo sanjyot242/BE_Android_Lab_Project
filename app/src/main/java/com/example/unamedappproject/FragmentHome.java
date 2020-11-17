@@ -50,11 +50,12 @@ import static com.example.unamedappproject.RecyclerViewAdapterHome.CAMERA_REQUES
  */
 public class FragmentHome extends Fragment {
     View v;
-    private RecyclerView recyclerViewHome;
+    private static RecyclerView recyclerViewHome;
     public static RecyclerViewAdapterHome recyclerViewAdapter;
     private SwipeRefreshLayout refreshLayout;
     static LinearLayoutManager mLayoutManager;
     Toolbar toolbar;
+    static TextView textView;
     public static String description[], title[], owner[];
 
     // TODO: Rename parameter arguments, choose names that match
@@ -108,7 +109,7 @@ public class FragmentHome extends Fragment {
         // Inflate the layout for this fragment
         v = inflater.inflate(R.layout.fragment_fragment_home, container, false);
         toolbar = (Toolbar)v.findViewById(R.id.toolbar_global);
-        TextView textView = v.findViewById(R.id.textEmpty);
+         textView = v.findViewById(R.id.textEmpty);
      //   refreshLayout = v.findViewById(R.id.refreshrequest);
         recyclerViewHome=(RecyclerView) v.findViewById(R.id.global_Requests);
         //logic will come to hide recyler view when no requests are there !
@@ -128,26 +129,7 @@ public class FragmentHome extends Fragment {
 //            }
 //        });
 
-        description = new String[MainActivity.c];
-        title = new String[MainActivity.c];
-        owner = new String[MainActivity.c];
-
-
-        for(int i = 0,x=0 ; i <= MainActivity.c -1 ; i++){
-            description[x]=MainActivity.description.get(i);
-            title[x]=MainActivity.title.get(i);
-            owner[x]=MainActivity.owner.get(i);
-            x++;
-        }
-
-        if(MainActivity.c!=0) {
-            textView.setVisibility(View.GONE);
-            recyclerViewAdapter = new RecyclerViewAdapterHome(getContext(), description, title, owner);
-            recyclerViewHome.setAdapter(recyclerViewAdapter);
-        }else{
-            recyclerViewHome.setVisibility(View.GONE);
-            textView.setVisibility(View.VISIBLE);
-        }
+        setupRecyclerView(getContext());
 
         return v;
 
@@ -172,6 +154,33 @@ public class FragmentHome extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    public static void setupRecyclerView(Context context){
+
+
+//        MainActivity.loadData();
+        Log.i(TAG, "setupRecyclerView: ");
+        description = new String[MainActivity.c];
+        title = new String[MainActivity.c];
+        owner = new String[MainActivity.c];
+
+
+        for(int i = 0,x=0 ; i <= MainActivity.c -1 ; i++){
+            description[x]=MainActivity.description.get(i);
+            title[x]=MainActivity.title.get(i);
+            owner[x]=MainActivity.owner.get(i);
+            x++;
+        }
+
+        if(MainActivity.c!=0) {
+            textView.setVisibility(View.GONE);
+            recyclerViewAdapter = new RecyclerViewAdapterHome(context, description, title, owner);
+            recyclerViewHome.setAdapter(recyclerViewAdapter);
+        }else{
+            recyclerViewHome.setVisibility(View.GONE);
+            textView.setVisibility(View.VISIBLE);
+        }
     }
 
     /**

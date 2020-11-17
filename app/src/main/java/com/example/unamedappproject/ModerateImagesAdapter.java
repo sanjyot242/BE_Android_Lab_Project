@@ -60,16 +60,23 @@ public class ModerateImagesAdapter extends RecyclerView.Adapter<ModerateImagesAd
 
         holder.verify.setOnClickListener(v -> {
             //append this map to imageUrls
-            Map<String, Object> image_data = new HashMap<>();
-            image_data.put("img_url", currentUrl);
-            image_data.put("verified", true);
-            image_data.put("correct", true);
-            docRef.update("imageUrls",FieldValue.arrayRemove(moderateImageUrls.get(position)));
-            docRef.update("imageUrls",FieldValue.arrayUnion(image_data));
+
+
+
+            if (moderateImageUrls.get(position).get("correct").toString()=="true"
+            && moderateImageUrls.get(position).get("verified").toString()=="true"){
+                Toast.makeText(mContext, "Image is Already Verified", Toast.LENGTH_SHORT).show();
+            }else {
+                Map<String, Object> image_data = new HashMap<>();
+                image_data.put("img_url", currentUrl);
+                image_data.put("verified", true);
+                image_data.put("correct", true);
+                docRef.update("imageUrls", FieldValue.arrayRemove(moderateImageUrls.get(position)));
+                docRef.update("imageUrls", FieldValue.arrayUnion(image_data));
 //            moderateImageUrls.remove(position);
 //            moderateImageUrls.add(image_data);
-            notifyDataSetChanged();
-
+                notifyDataSetChanged();
+            }
 
         });
     }

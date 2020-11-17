@@ -20,6 +20,7 @@ import static com.example.unamedappproject.MainActivity.c;
 import static com.example.unamedappproject.MainActivity.description;
 import static com.example.unamedappproject.MainActivity.owner;
 import static com.example.unamedappproject.MainActivity.title;
+import static com.example.unamedappproject.ModerateImages.moderateImageUrls;
 
 
 /**
@@ -87,6 +88,7 @@ public class fragmentRight extends Fragment {
         TextView logout = v.findViewById(R.id.Account_Logout);
         Slot3=v.findViewById(R.id.Account_Slot3) ;
         Slot4 = v.findViewById(R.id.Account_Slot4);
+
 
 
 

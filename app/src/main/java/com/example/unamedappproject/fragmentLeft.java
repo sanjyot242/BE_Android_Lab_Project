@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -52,6 +53,7 @@ public class fragmentLeft extends Fragment {
     public static RecyclerView recyclerView;
     public static RecyclerViewAdapterLeft recyclerViewAdapterLeft;
     static LinearLayoutManager mLayoutManager;
+    Toolbar toolbar;
     private StorageReference mStorage;
     static FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -99,12 +101,22 @@ public class fragmentLeft extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_fragment_left, container, false);
+        toolbar = (Toolbar)v.findViewById(R.id.toolbar_myRequests);
         recyclerView=v.findViewById(R.id.moderateRecyclerView);
         mStorage = FirebaseStorage.getInstance().getReference();
+        TextView textView = v.findViewById(R.id.textEmpty);
         mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(mLayoutManager);
-        recyclerViewAdapterLeft = new RecyclerViewAdapterLeft(getContext(),Mdescription,Mtitle);
-        recyclerView.setAdapter(recyclerViewAdapterLeft);
+        if(Mdescription.size()<1){
+            recyclerView.setVisibility(View.GONE);
+            textView.setVisibility(View.VISIBLE);
+        }else{
+            textView.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
+            recyclerViewAdapterLeft = new RecyclerViewAdapterLeft(getContext(),Mdescription,Mtitle);
+            recyclerView.setAdapter(recyclerViewAdapterLeft);
+        }
+
 
         Log.i("TAG", "onCreateView: "+mAuth.getUid());
 

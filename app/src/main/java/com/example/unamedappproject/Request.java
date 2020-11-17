@@ -132,7 +132,7 @@ public class Request extends AppCompatActivity {
                 owner.add(FirebaseAuth.getInstance().getUid());
                 Mtitle.add(Title);
                 Mdescription.add(Description);
-                fragmentLeft.recyclerViewAdapterLeft.notifyDataSetChanged();
+//                fragmentLeft.recyclerViewAdapterLeft.notifyDataSetChanged();
 //                owner.add(MainHostActivity.name);
 //                title.add(Title);
 //                description.add(Description);

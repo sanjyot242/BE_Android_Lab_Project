@@ -6,6 +6,8 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
@@ -19,6 +21,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
 
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -50,12 +54,14 @@ public class FragmentHome extends Fragment {
     public static RecyclerViewAdapterHome recyclerViewAdapter;
     private SwipeRefreshLayout refreshLayout;
     static LinearLayoutManager mLayoutManager;
+    Toolbar toolbar;
     public static String description[], title[], owner[];
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -101,11 +107,16 @@ public class FragmentHome extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         v = inflater.inflate(R.layout.fragment_fragment_home, container, false);
+        toolbar = (Toolbar)v.findViewById(R.id.toolbar_global);
+        TextView textView = v.findViewById(R.id.textEmpty);
      //   refreshLayout = v.findViewById(R.id.refreshrequest);
         recyclerViewHome=(RecyclerView) v.findViewById(R.id.global_Requests);
         //logic will come to hide recyler view when no requests are there !
         mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerViewHome.setLayoutManager(mLayoutManager);
+
+       // AppCompatActivity activity = (AppCompatActivity) getActivity();
+
 
 //        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
 //            @Override
@@ -129,9 +140,14 @@ public class FragmentHome extends Fragment {
             x++;
         }
 
-
-        recyclerViewAdapter = new RecyclerViewAdapterHome(getContext(),description,title,owner);
-        recyclerViewHome.setAdapter(recyclerViewAdapter);
+        if(MainActivity.c!=0) {
+            textView.setVisibility(View.GONE);
+            recyclerViewAdapter = new RecyclerViewAdapterHome(getContext(), description, title, owner);
+            recyclerViewHome.setAdapter(recyclerViewAdapter);
+        }else{
+            recyclerViewHome.setVisibility(View.GONE);
+            textView.setVisibility(View.VISIBLE);
+        }
 
         return v;
 

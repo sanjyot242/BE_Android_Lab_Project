@@ -26,7 +26,7 @@ import static com.example.unamedappproject.RecyclerViewAdapterHome.currentVisite
 
 public class ModerateImages extends AppCompatActivity {
     RecyclerView recyclerViewModerateImage;
-    ArrayList<Map> moderateImageUrls;
+    public static ArrayList<Map> moderateImageUrls;
     private ModerateImagesAdapter moderateImagesAdapter;
     static FirebaseFirestore db = FirebaseFirestore.getInstance();
 //    private CollectionReference dbRef=db.collection("users").document(mAuth.getUid())

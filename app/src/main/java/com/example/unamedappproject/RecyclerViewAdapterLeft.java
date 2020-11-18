@@ -73,9 +73,9 @@ public class RecyclerViewAdapterLeft extends RecyclerView.Adapter<RecyclerViewAd
             AlertDialog.Builder builder
                     = new AlertDialog
                     .Builder(mContext);
-            builder.setMessage("Do you want to exit ?");
+            builder.setMessage("Do you want to Delete This Dataset ?");
             builder.setTitle("Alert !");
-            builder.setCancelable(false);
+            builder.setCancelable(true);
 
             builder.setPositiveButton(
                     "Yes", new DialogInterface.OnClickListener() {

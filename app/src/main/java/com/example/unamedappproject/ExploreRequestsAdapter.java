@@ -42,6 +42,8 @@ public class ExploreRequestsAdapter extends RecyclerView.Adapter<ExploreRequests
         Log.i(TAG, "onBindViewHolder: currentURL" + currentUrl);
         Picasso.get()
                 .load(currentUrl)
+                .fit()
+                .centerCrop()
                 .into(holder.imageView);
     }
 

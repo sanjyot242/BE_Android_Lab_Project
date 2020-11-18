@@ -50,7 +50,10 @@ public class ModerateImagesAdapter extends RecyclerView.Adapter<ModerateImagesAd
         String currentUrl = moderateImageUrls.get(position).get("img_url").toString();
         Picasso.get()
                 .load(currentUrl)
+                .fit()
+                .centerCrop()
                 .into(holder.imageView);
+
         holder.delete.setOnClickListener(v -> {
             //updates.put(String.valueOf(position), FieldValue.delete());
             docRef.update("imageUrls",FieldValue.arrayRemove(moderateImageUrls.get(position)));
@@ -90,8 +93,11 @@ public class ModerateImagesAdapter extends RecyclerView.Adapter<ModerateImagesAd
 
     @Override
     public int getItemCount() {
-        Log.i("TAG", "getItemCount: "+moderateImageUrls.size());
-        return moderateImageUrls.size();
+       if(moderateImageUrls!=null) {
+           return moderateImageUrls.size();
+       }else{
+           return 0;
+       }
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {

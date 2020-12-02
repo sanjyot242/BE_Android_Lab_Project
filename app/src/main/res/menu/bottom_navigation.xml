@@ -3,18 +3,18 @@
 
     <item
         android:id="@+id/nav_left"
-        android:icon="@drawable/ic_favorite_black_24dp"
-        android:title="left"/>
+        android:icon="@drawable/ic_baseline_folder_shared_24"
+        android:title="My Request"/>
 
     <item
         android:id="@+id/nav_home"
         android:icon="@drawable/ic_home_black_24dp"
-        android:title="Home"/>
+        android:title="Global"/>
 
 
     <item
         android:id="@+id/nav_right"
-        android:icon="@drawable/ic_save_black_24dp"
-        android:title="Right"/>
+        android:icon="@drawable/ic_baseline_account_circle_24"
+        android:title="Account"/>
 
 </menu>
